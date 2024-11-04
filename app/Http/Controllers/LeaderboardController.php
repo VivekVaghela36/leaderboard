@@ -13,15 +13,15 @@ class LeaderboardController extends Controller
     {
         $leaderboardQuery = Leaderboard::with('user');
         $currentDate = now();
-        if ($request->has('filter') && $request->filter === 'day') {
+        if ($request->has('filter') && $request->filter != '' && $request->filter === 'day') {
             $leaderboardQuery->whereDate('created_at', $currentDate->toDateString());
         }
 
-        if ($request->has('filter') && $request->filter === 'month') {
+        if ($request->has('filter') && $request->filter != '' && $request->filter === 'month') {
             $leaderboardQuery->whereYear('created_at', $currentDate->year)
                 ->whereMonth('created_at', $currentDate->month);
         }
-        if ($request->has('filter') && $request->filter === 'year') {
+        if ($request->has('filter') && $request->filter != '' && $request->filter === 'year') {
             $leaderboardQuery->whereYear('created_at', $currentDate->year);
         }
         if ($request->has('user_id') && $request->user_id != '') {
