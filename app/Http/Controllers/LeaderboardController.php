@@ -42,19 +42,19 @@ class LeaderboardController extends Controller
             ->get();
 
 
-        $rank = 1;
+        $rank = 0;
         $previousPoints = null;
-
+        $rankedLeaderboard = [];
         foreach ($userPoints as $userPoint) {
             if ($userPoint->total_points !== $previousPoints) {
-
                 $rank++;
             }
+
             Leaderboard::updateOrCreate(
                 ['user_id' => $userPoint->user_id],
-                ['total_points' => $userPoint->total_points, 'rank' => $rank++]
+                ['total_points' => $userPoint->total_points, 'rank' => $rank]
             );
-
+            // $rank++;
             $previousPoints = $userPoint->total_points;
         }
         return redirect()->route('leaderboard.index')->with('success', 'Leaderboard updated successfully!');
